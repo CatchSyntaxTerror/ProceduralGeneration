@@ -9,11 +9,13 @@ public class Segments {
 
     public double x, y;
     public double radius;
+    public int num;
 
-    public Segments( double x, double y, double radius){
+    public Segments( double x, double y, double radius, int num){
         this.x = x;
         this.y = y;
         this.radius = radius;
+        this.num = num;
     }
 
     @Override

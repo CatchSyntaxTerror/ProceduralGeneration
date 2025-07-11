@@ -25,19 +25,19 @@ public class Main extends Application {
 
         Pane root = new Pane();
         Scene scene = new Scene(root, width, height);
-        root.setStyle("-fx-background-color: cornflowerblue");
+        root.setStyle("-fx-background-color: green;");
 
         for (int i = 1; i < 11 ; i++) {
             makeSnake(root, width - i * 50, height - i * 50, 10, 20);
         }
 
         stage.setScene(scene);
-        stage.setTitle("Centered Window");
+        stage.setTitle("Simulation");
         stage.show();
     }
 
     private void makeSnake(Pane root, double startX, double startY, double headSize, int length) {
-        Snake snake = new Snake(startX, startY, headSize, length);
+        Snake snake = new Snake(startX, startY, headSize, length, root);
         snake.draw(root);
         Thread thread = new Thread(snake);
         thread.start();

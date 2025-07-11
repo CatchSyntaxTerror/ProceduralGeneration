@@ -13,62 +13,47 @@ import java.util.List;
  * This class creates snakes made up of segments
  * Todo: Draw lines on the sides of the segment chain to make a snake shape
  */
-public class Snake implements Runnable {
+public class Snake extends Entity {
 
     private final List<Segments> SEGMENTS = new ArrayList<>();
     private final List<Circle> SHAPES = new ArrayList<>();
-    private final double MAX_ROTATION = Math.toRadians(90);
-    boolean alive = true;
 
-    public Snake(double startX, double startY, double initialRadius, int segemnts) {
+    private Pane pane;
+    private double headSpeed = 2.0;
+
+    public Snake(double startX, double startY, double initialRadius, int segemnts, Pane pane) {
+        super(startX, startY);
+        this.pane = pane;
+
         double radius = initialRadius;
         double x = startX;
         double y = startY;
         for (int i = 0; i < segemnts; i++) {
-            SEGMENTS.add(new Segments(x, y, radius));
+            SEGMENTS.add(new Segments(x, y, radius, i));
             x += Math.cos(0) * (radius * 2);
             y += Math.sin(0) * (radius + 1.5);
             radius *= 0.95;
         }
 
-//        for (Segments seg : segments) {
-//            System.out.println(seg.toString());
-//        }
-    }
-
-    public void draw(Pane pane) {
         for (Segments seg : SEGMENTS) {
             Circle circle = new Circle(seg.x, seg.y, seg.radius);
-            circle.setFill(Color.FORESTGREEN);
+            if(seg.num % 2 == 0) {
+                circle.setFill(Color.BLACK);
+            } else {
+                circle.setFill(Color.YELLOW);
+            }
+
             circle.setStroke(Color.BLACK);
-            pane.getChildren().add(circle);
             SHAPES.add(circle);
+            pane.getChildren().add(circle);
         }
     }
 
-    /**
-     * Currently, this method simply moves the head of the snake to the left
-     */
     @Override
-    public void run() {
-        while (alive) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Segments head = SEGMENTS.getFirst();
-            head.x -= 2;
-            updateSegments();
-
-            javafx.application.Platform.runLater(() -> {
-                for (int i = 0; i < SHAPES.size(); i++) {
-                    SHAPES.get(i).setCenterX(SEGMENTS.get(i).x);
-                    SHAPES.get(i).setCenterY(SEGMENTS.get(i).y);
-                }
-            });
-        }
+    public void update() {
+        Segments head = SEGMENTS.get(0);
+        head.x -= headSpeed;
+        updateSegments();
     }
 
     /**
@@ -79,6 +64,38 @@ public class Snake implements Runnable {
             SEGMENTS.get(i).x -= 2;
         }
     }
+
+    @Override
+    public void draw(Pane pane) {
+        for (int i = 0; i < SHAPES.size(); i++) {
+            Circle c = SHAPES.get(i);
+            Segments seg = SEGMENTS.get(i);
+            c.setCenterX(seg.x);
+            c.setCenterY(seg.y);
+        }
+    }
+
+    /**
+     * Currently, this method simply moves the head of the snake to the left
+     */
+    @Override
+    public void run() {
+        while (alive) {
+            update();
+
+            javafx.application.Platform.runLater(() -> {
+                draw(pane);
+            });
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                System.out.println("Snake is having trouble");
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
 
 
