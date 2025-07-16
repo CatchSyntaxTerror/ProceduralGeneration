@@ -25,22 +25,33 @@ public class Main extends Application {
 
         Pane root = new Pane();
         Scene scene = new Scene(root, width, height);
-        root.setStyle("-fx-background-color: green;");
+        root.setStyle("-fx-background-color: #1a1a1a;");
 
-        for (int i = 1; i < 11 ; i++) {
-            makeSnake(root, width - i * 50, height - i * 50, 10, 20);
-        }
+//        for (int i = 1; i < 11 ; i++) {
+//            makeSnake(root, width - i * 50, height - i * 50, 10, 20);
+//        }
+
+        Snake snake = makeSnake(root, width/2, height/2 , 10, 20);
+
+        scene.setOnKeyPressed(new util.KeyHandler(snake));
+        scene.setOnKeyReleased(new util.KeyHandler(snake));
+
+        scene.setOnMouseMoved(new util.MouseHandler(snake));
+
+        root.setFocusTraversable(true);
+        root.requestFocus();
 
         stage.setScene(scene);
         stage.setTitle("Simulation");
         stage.show();
     }
 
-    private void makeSnake(Pane root, double startX, double startY, double headSize, int length) {
+    private Snake makeSnake(Pane root, double startX, double startY, double headSize, int length) {
         Snake snake = new Snake(startX, startY, headSize, length, root);
         snake.draw(root);
         Thread thread = new Thread(snake);
         thread.start();
+        return snake;
     }
 
     public static void main(String[] args) {
