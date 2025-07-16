@@ -31,7 +31,7 @@ public class Main extends Application {
 //            makeSnake(root, width - i * 50, height - i * 50, 10, 20);
 //        }
 
-        Snake snake = makeSnake(root, width/2, height/2 , 10, 20);
+        Snake snake = makeSnake(root, width/2, height/2 , 15, 40);
 
         scene.setOnKeyPressed(new util.KeyHandler(snake));
         scene.setOnKeyReleased(new util.KeyHandler(snake));

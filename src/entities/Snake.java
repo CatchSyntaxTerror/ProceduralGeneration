@@ -95,7 +95,7 @@ public class Snake extends Entity {
             double angleDiff = desiredAngle - curr.angle;
             angleDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
 
-            double maxTurnAngle = Math.toRadians(5);
+            double maxTurnAngle = Math.toRadians(3);
 
             if (angleDiff > maxTurnAngle) angleDiff = maxTurnAngle;
             else if (angleDiff < -maxTurnAngle) angleDiff = -maxTurnAngle;
