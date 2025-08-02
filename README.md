@@ -1,4 +1,4 @@
-# Procedural Snake: A Slithering Simulation
+# Procedural Generation
 
 Welcome to my **procedural animation** sandbox! This project is an early experiment in bringing entities to life without hand-crafted frames. Here, a **snake-like being** slithers through space, guided by math.
 
